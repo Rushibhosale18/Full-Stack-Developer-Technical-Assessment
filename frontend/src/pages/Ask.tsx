@@ -19,6 +19,7 @@ export const Ask = () => {
   const [selectedDocId, setSelectedDocId] = useState<string>('');
   const [history, setHistory] = useState<Message[]>([]);
   const [question, setQuestion] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const chatEndRef = useRef<HTMLDivElement>(null);
@@ -96,11 +97,18 @@ export const Ask = () => {
     <div className="flex flex-col h-[calc(100vh-4rem)]">
       <div className="flex justify-between items-center mb-4 shrink-0">
         <h1 className="text-2xl font-bold text-gray-900">Ask AI</h1>
-        <div className="w-64">
+        <div className="flex gap-4 items-center w-[500px]">
+          <input
+            type="text"
+            placeholder="Search conversation..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 py-2 px-3 text-base border"
+          />
           <select
             value={selectedDocId}
             onChange={(e) => setSelectedDocId(e.target.value)}
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 py-2 pl-3 pr-10 text-base"
+            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 py-2 pl-3 pr-10 text-base border"
           >
             <option value="" disabled>Select a document</option>
             {documents.map((doc) => (
@@ -128,7 +136,12 @@ export const Ask = () => {
               <p className="text-sm">Type a question below to get started!</p>
             </div>
           ) : (
-            history.map((msg, idx) => (
+            history
+              .filter(msg => 
+                msg.question.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                msg.answer.toLowerCase().includes(searchQuery.toLowerCase())
+              )
+              .map((msg, idx) => (
               <div key={msg._id || idx} className="space-y-4">
                 {/* User Message */}
                 <div className="flex items-start gap-4 justify-end">

@@ -15,6 +15,7 @@ export const Documents = () => {
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const fetchDocuments = async () => {
@@ -71,7 +72,15 @@ export const Documents = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold text-gray-900">Documents</h1>
-        <div>
+        <div className="flex gap-4 items-center">
+          <input
+            type="text"
+            placeholder="Search documents..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="rounded-lg border-gray-300 px-4 py-2 border focus:ring-blue-500 focus:border-blue-500"
+          />
+          <div>
           <input
             type="file"
             ref={fileInputRef}
@@ -124,7 +133,9 @@ export const Documents = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {documents.map((doc) => (
+              {documents
+                .filter((doc) => doc.filename.toLowerCase().includes(searchQuery.toLowerCase()))
+                .map((doc) => (
                 <tr key={doc._id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
