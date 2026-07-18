@@ -1,6 +1,6 @@
 import express, { Response } from 'express';
 import multer from 'multer';
-const pdfParse = require('pdf-parse');
+const pdfParse = require('pdf-parse-new');
 import Document from '../models/Document';
 import { protect, AuthRequest } from '../middleware/authMiddleware';
 
