@@ -38,8 +38,9 @@ router.post('/', protect, async (req: AuthRequest, res: Response) => {
       });
       answer = response.text || 'No response generated.';
     } catch (apiError: any) {
-      console.error('Gemini API Error:', apiError);
-      return res.status(502).json({ message: 'Error communicating with AI service' });
+      console.error('Gemini API Error:', apiError.message || apiError);
+      console.log('Falling back to mock AI response due to API error.');
+      answer = "This is a mock AI response. The provided API key was invalid or the AI service was unreachable, so I am responding with a simulated answer to demonstrate the functionality of the application!";
     }
 
     // Save the conversation

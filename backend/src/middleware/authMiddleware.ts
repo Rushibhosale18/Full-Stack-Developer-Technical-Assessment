@@ -19,6 +19,9 @@ export const protect = async (req: AuthRequest, res: Response, next: NextFunctio
       const decoded: any = jwt.verify(token, process.env.JWT_SECRET || 'fallback_secret');
 
       req.user = await User.findById(decoded.id).select('-password');
+      if (!req.user) {
+        return res.status(401).json({ message: 'Session expired or user deleted. Please log out and sign up again.' });
+      }
 
       next();
     } catch (error) {

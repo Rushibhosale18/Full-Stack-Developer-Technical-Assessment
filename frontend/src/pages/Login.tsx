@@ -20,7 +20,7 @@ export const Login = () => {
     setLoading(true);
 
     try {
-      const endpoint = isLogin ? '/api/auth/login' : '/api/auth/signup';
+      const endpoint = isLogin ? '/auth/login' : '/auth/signup';
       const { data } = await axios.post(import.meta.env.VITE_API_URL + endpoint, { email, password });
       login(data);
       navigate('/');

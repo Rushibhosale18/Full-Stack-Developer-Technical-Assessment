@@ -97,6 +97,7 @@ export const Documents = () => {
             Upload Document
           </button>
         </div>
+        </div>
       </div>
 
       {error && (
