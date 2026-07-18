@@ -12,7 +12,7 @@ This is a Full Stack application that allows users to upload documents (PDF, TXT
 ## Tech Stack
 - **Frontend**: React 18, TypeScript, Vite, Tailwind CSS, React Router v6.
 - **Backend**: Node.js, Express, TypeScript, MongoDB (Mongoose), Multer, pdf-parse.
-- **AI Provider**: Google Gemini (`@google/genai`).
+- **AI Provider**: Google Gemini (@google/genai).
 
 ## Setup Instructions
 
@@ -24,47 +24,45 @@ This is a Full Stack application that allows users to upload documents (PDF, TXT
 ### Installation
 
 1. **Clone the repository** (or extract the zip file):
-   ```bash
+   bash
    git clone <repository_url>
    cd ai-knowledge-base
-   ```
+   
 
 2. **Backend Setup**:
-   ```bash
+   bash
    cd backend
    npm install
-   ```
-   Create a `.env` file in the `backend` directory with the following contents:
-   ```env
+   
+   Create a .env file in the backend directory with the following contents:
+   env
    PORT=5000
    MONGO_URI=mongodb://localhost:27017/ai-knowledge-base
-   JWT_SECRET=your_jwt_secret_here
-   GEMINI_API_KEY=your_gemini_api_key_here
-   ```
+   GEMINI_API_KEY=Not Provided the secreate Key because of the security reasons
    Start the backend server:
-   ```bash
+   bash
    npm run dev
-   ```
+   
 
 3. **Frontend Setup**:
    Open a new terminal window:
-   ```bash
+   bash
    cd frontend
    npm install
-   ```
-   Create a `.env` file in the `frontend` directory:
-   ```env
-   VITE_API_URL=http://localhost:5000/api
-   ```
+   
+   Create a .env file in the frontend directory:
+   env
+   VITE_API_URL=https://full-stack-developer-technical-asse.vercel.app/
+   
    Start the frontend dev server:
-   ```bash
+   bash
    npm run dev
-   ```
+   
 
 ## Design Decisions
-- **Text Extraction**: Text is extracted from documents at the time of upload using `pdf-parse`. This simplifies the architecture by avoiding a background worker, but keeps the upload request synchronous.
+- **Text Extraction**: Text is extracted from documents at the time of upload using pdf-parse. This simplifies the architecture by avoiding a background worker, but keeps the upload request synchronous.
 - **AI Context**: Extracted text is passed directly in the prompt context to Gemini. This is extremely effective for most documents, although very large documents might hit token limits.
-- **File Storage**: Uploads use `multer.memoryStorage()`, so files are not saved to disk permanently. The text is extracted in memory and saved to MongoDB. This makes deployment easier (no persistent file storage volume needed).
+- **File Storage**: Uploads use multer.memoryStorage(), so files are not saved to disk permanently. The text is extracted in memory and saved to MongoDB. This makes deployment easier (no persistent file storage volume needed).
 
 ## Future Improvements
 - **Vector Database (RAG)**: For massive documents, implement document chunking and store embeddings in a vector database like Pinecone or ChromaDB.
